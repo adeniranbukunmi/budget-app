@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>budget App</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- bootstrap css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- bootstrap js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div>
+        <h1>welcome to budget right</h1>
+        <input class="input" name="text"  id="accountInput" placeholder="Enter the amount for budget" type="number">
+        
+        <button class="btn" onclick="submitDeposit()"> submit
+        </button> 
+        <div id="displayTable"></div>
+         <button class="btn" id="StartBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"  style="display: none;"> start budget
+        </button>
+        <div id="showBalance"></div>
+        <!-- <label for="itemInput">enter items you want to budget on</label> -->
+        <input class="input" name="items"  id="itemInput" placeholder="items" type="text">
+
+        <!-- <label for="">enter items </label> -->
+        <input class="input" name="text"  id="quantityInput" placeholder="quantity" type="number">
+
+      
+    </div>
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <input type="text" placeholder="item" id="itemInput">
+           <input type="text"placeholder="quantity" id="quantityInput">
+           <input type="text"placeholder="price" id="priceInput">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script>
+        let balance = 0;
+        const  submit = ()=>{
+            //alert('hello')
+          
+            showBalance.innerHTML=` <p> your available balance is  #${accountInput.value}</p>`
+        }
+
+        const submitDeposit= () => {
+              const currentBalance = Number(localStorage.getItem('balance')) + Number(accountInput.value)
+            localStorage.setItem('balance', currentBalance); 
+            if (currentBalance==''){
+              alert('nothing')
+            }else{
+              StartBtn.style.display='block'
+              showBalance.innerHTML=` <p> your available balance is  #${currentBalance}</p>`
+              displayTable.innerHTML=`<table style="border:2px solid red;">
+                <th>Sn</th>
+                <th>item</th>
+                <th>quantity</th>
+                <th>price</th>
+                <th>total</th>
+                <tr>
+                  ${itemInput.value}
+                </tr>
+                <tr>
+                  ${quantityInput.value}
+                </tr>
+                <tr>
+                  ${priceInput.value}
+                </tr>
+                <tr>
+                  ${quantityInput.value * priceInput.value}
+                </tr>
+              </table>`
+            }
+                 }
+            //let convertBalance = localStorage.getItem('balance');
+            //showBalance.innerHTML = convertBalance
+
+            let array =[]
+            const submitBudget= () => {
+
+                const userData = {
+                    item: itemInput.value,
+                    quantity: quantityInput.value,
+                    price: priceInput.value
+                }
+
+                localStorage.setItem('expenses', JSON.stringify(userData));
+                    }
+           
+    </script>
+</body>
+</html>
